@@ -1,11 +1,30 @@
 <h3>Your hand:</h3>
 
+<form id="frm_cards" method="POST" action="/games/<%= gameId %>/exchange">
+  <div class="container">
+    <div id="cards">
+    </div>
+    </div>
+      <button id="submit_burn" type="button" class="btn btn-primary btn-block">Burn selected cards</button>
+    </div>
+  </div>
+</form>
+
+
 <script>
   const gameId = '<%= gameId %>';
 
   // Fetch the current users cards here from `/games/${gameId}/cards`
+  $.ajax(`/games/${gameId}/cards`).done(function(data, textStatus, xhr){
+      var cards = '';
+      $.each(data, function(index, value){
+        console.log(value)
+        cards += '<div class="col-sm-6 col-md-2"><div><img class="col-sm-12 col-md-11" src="'+value.image+'" /></div><div class="text-center"><input name="card" id="card" type="checkbox" value="'+value.value+'" /> Discard</div></div>';
+      });
 
+      $('#cards').append('<div class="row"><div class="row col-sm-12">'+cards+'</div><div class="col-xs-2"></div></div>');
 
+    });
 
   const checkExchangeStatus = function(){
     $.ajax(`/games/${gameId}/allExchanged`).done(function(data, textStatus, xhr){
@@ -15,5 +34,10 @@
     })
   }
 
+  /** init **/
   setInterval(checkExchangeStatus, 1000);
+  $("#submit_burn").click(function(){  
+      console.log("submitform");
+  });
+
 </script>
