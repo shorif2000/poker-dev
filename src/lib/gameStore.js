@@ -52,13 +52,13 @@ const allPlayersExchanged = gameId => {
 };
 
 const playerExchange = (gameId, player) => {
-  console.log("playerExchange");
-  console.log(gameId, player);
   const game = getGame(gameId);
   const { players } = getGame(gameId);
   players[player].exchanged = true;
-  updateGame(gameId, { ...game, players });
-  return true;
+  if (updateGame(gameId, { ...game, players }) instanceof Object) {
+    return true;
+  }
+  return false;
 };
 
 module.exports = {

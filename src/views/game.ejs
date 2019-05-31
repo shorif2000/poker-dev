@@ -15,11 +15,12 @@
   const gameId = '<%= gameId %>';
 
   // Fetch the current users cards here from `/games/${gameId}/cards`
+  // cards are different ones retrieved here.
   $.ajax(`/games/${gameId}/cards`).done(function(data, textStatus, xhr){
       var cards = '';
       $.each(data, function(index, value){
         console.log(value)
-        cards += '<div class="col-sm-6 col-md-2"><div><img class="col-sm-12 col-md-11" src="'+value.image+'" /></div><div class="text-center"><input name="card" id="card" type="checkbox" value="'+value.value+'" /> Discard</div></div>';
+        cards += '<div class="col-sm-6 col-md-2"><div><img class="col-sm-12 col-md-11" src="'+value.image+'" /></div><div class="text-center"><input name="card" id="card" type="checkbox" value="'+value.code+'" /> Discard</div></div>';
       });
 
       $('#cards').append('<div class="row"><div class="row col-sm-12">'+cards+'</div><div class="col-xs-2"></div></div>');
