@@ -37,7 +37,9 @@
   /** init **/
   setInterval(checkExchangeStatus, 1000);
   $("#submit_burn").click(function(){  
-      console.log("submitform");
+    $.post(`/games/<%= gameId %>/exchange`, $( "#frm_cards" ).serialize()).done(function(data, textStatus, xhr){
+      console.log(data);
+    });
   });
 
 </script>

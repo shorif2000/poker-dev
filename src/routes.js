@@ -5,6 +5,7 @@ const joinGameHandler = require("./handlers/joinGame");
 const gamePlayHandler = require("./handlers/gamePlay");
 const cardsHandler = require("./handlers/cards");
 const exchangeCheckHandler = require("./handlers/exchangeCheck");
+const exchangeHandler = require("./handlers/exchange");
 const resultHandler = require("./handlers/result");
 
 module.exports = [
@@ -38,6 +39,18 @@ module.exports = [
           gameId: Joi.string().required()
         }
       }
+    }
+  },
+  {
+    method: "POST",
+    path: "/games/{gameId}/exchange",
+    config: {
+      handler: exchangeHandler
+      //validate: {
+      //payload: {
+      //gameId: Joi.string().required(),
+      //}
+      //}
     }
   },
   {

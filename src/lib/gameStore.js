@@ -34,6 +34,8 @@ const addPlayer = (gameId, playerId) => {
   if (allPlayersJoined(game)) {
     throw new Error("That game is already full");
   }
+  //const exchanged = (allPlayersJoined(game)) ? true : false;
+  //console.log('exchanged' , exchanged);
   const players = {
     ...game.players,
     [playerId]: { cards: [], exchanged: false }
@@ -49,11 +51,22 @@ const allPlayersExchanged = gameId => {
   );
 };
 
+const playerExchange = (gameId, player) => {
+  console.log("playerExchange");
+  console.log(gameId, player);
+  const game = getGame(gameId);
+  const { players } = getGame(gameId);
+  players[player].exchanged = true;
+  updateGame(gameId, { ...game, players });
+  return true;
+};
+
 module.exports = {
   saveNewGame,
   getGame,
   updateGame,
   addPlayer,
   allPlayersJoined,
-  allPlayersExchanged
+  allPlayersExchanged,
+  playerExchange
 };
