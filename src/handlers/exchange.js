@@ -2,7 +2,8 @@ const { playerExchange } = require("../lib/gameStore");
 
 const exchangeHandler = async (req, h) => {
   console.error("exchangeHandler");
-  if (req.payload.card === undefined) {
+  console.log(req.payload);
+  if (req.payload == null || req.payload.card === undefined) {
     return h.response("No cards selected").code(202);
   }
   if (req.params.gameId === undefined) {
