@@ -1,13 +1,13 @@
 const axios = require("axios");
-const { getGame, playerExchange } = require("../lib/gameStore");
+const { getGame } = require("../lib/gameStore");
 
 const exchangeHandler = async (req, h) => {
   console.error("exchangeHandler");
   console.error(req.payload);
-  /*const card = Object.keys(req.payload).map(function(key) {
+  /* const card = Object.keys(req.payload).map(function(key) {
     return [Number(key), obj[key]];
-  });*/
-  //console.error(`card: ${card}`);
+  }); */
+  // console.error(`card: ${card}`);
   if (req.payload == null || req.payload.card === undefined) {
     return h.response("No cards selected").code(202);
   }
@@ -21,7 +21,9 @@ const exchangeHandler = async (req, h) => {
   const playerId = req.state.player;
   // @TODO handle arrays
   const cards =
-    typeof req.payload.card == "string" ? [req.payload.card] : req.payload.card;
+    typeof req.payload.card === "string"
+      ? [req.payload.card]
+      : req.payload.card;
 
   console.log(`playerid: ${playerId}`);
   const currentPlayerDeck = game.players[playerId].cards;
@@ -38,7 +40,7 @@ const exchangeHandler = async (req, h) => {
         console.error(cards);
         cards.forEach((replacecard, id2) => {
           currentPlayerDeck.forEach((card, id) => {
-            if (card.code == replacecard) {
+            if (card.code === replacecard) {
               console.error("match founb");
               console.error(currentPlayerDeck[id2]);
               console.error(card);
@@ -49,8 +51,8 @@ const exchangeHandler = async (req, h) => {
       }
       return currentPlayerDeck;
     })
-    .then(currentPlayerDeck => {
-      game.players[playerId].cards = currentPlayerDeck;
+    .then(playerDeck => {
+      game.players[playerId].cards = playerDeck;
       game.players[playerId].exchanged = true;
     });
 

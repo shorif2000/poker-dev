@@ -15,6 +15,7 @@ const gamePlayHandler = async (req, h) => {
   const { gameId } = req.params;
   const game = getGame(gameId);
   const { players } = game;
+  const playerId = req.state.player;
 
   if (!allPlayersJoined(game)) {
     return h.redirect(`/games/${gameId}/pending`);
@@ -33,8 +34,7 @@ const gamePlayHandler = async (req, h) => {
       // Object.keys(players).forEach(
       // (playerId, idx) => (players[playerId].cards = hands[idx])
       // );
-      console.error(hands);
-      players[req.state.player].cards = hands[0];
+      players[playerId].cards = hands[0];
       const newGameState = { ...game, players };
       updateGame(gameId, newGameState);
     })

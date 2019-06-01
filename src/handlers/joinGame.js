@@ -4,10 +4,10 @@ const joinGameHandler = async (req, h) => {
   console.error(`playerid: ${req.state.player}`);
   const gameId = req.payload.gameId.replace(/\s/g, "");
   if (!isGame(gameId)) {
-    //@TODO return error
+    // @TODO return error
     return h.view(`error`, { message: `GameId does not exist ${gameId}` });
   }
-  const gameState = addPlayer(gameId, req.state.player);
+  addPlayer(gameId, req.state.player);
   return h.redirect(`/games/${gameId}`);
 };
 
