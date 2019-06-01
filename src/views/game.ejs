@@ -53,6 +53,10 @@
        allVals.push($(this).val());
     });
     console.log(allVals);
+    if(allVals.length == 0 ){
+      alert(`You need to select a card to burn`);
+      return;
+    }
     //const params = {'card' : allVals };
     const params = $('#frm_cards').serialize();
     //console.log(params);

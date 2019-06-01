@@ -8,6 +8,7 @@ const exchangeCheckHandler = require("./handlers/exchangeCheck");
 const exchangeHandler = require("./handlers/exchange");
 const resultHandler = require("./handlers/result");
 const missingRoutesHandler = require("./handlers/missingRoutes");
+const Boom = require("boom");
 
 module.exports = [
   {
@@ -26,6 +27,14 @@ module.exports = [
       validate: {
         payload: {
           numPlayers: Joi.number().required()
+        },
+        failAction: async (req, h, err) => {
+          console.error("ValidationError:", err.message);
+          //throw Boom.badRequest(err.message);
+          return h
+            .view("error", { message: err.message })
+            .code(400)
+            .takeover();
         }
       }
     }
@@ -38,6 +47,14 @@ module.exports = [
       validate: {
         payload: {
           gameId: Joi.string().required()
+        },
+        failAction: async (req, h, err) => {
+          console.error("ValidationError:", err.message);
+          //throw Boom.badRequest(err.message);
+          return h
+            .view("error", { message: err.message })
+            .code(400)
+            .takeover();
         }
       }
     }
@@ -47,11 +64,6 @@ module.exports = [
     path: "/games/{gameId}/exchange",
     config: {
       handler: exchangeHandler
-      // validate: {
-      // payload: {
-      // gameId: Joi.string().required(),
-      // }
-      // }
     }
   },
   {
