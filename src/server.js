@@ -5,6 +5,7 @@ const vision = require("vision");
 const Ejs = require("ejs");
 const pkg = require("../package");
 const routes = require("./routes");
+const Crumb = require("@hapi/crumb");
 
 // Configure the server
 const server = hapi.Server({
@@ -21,8 +22,27 @@ const server = hapi.Server({
   }
 });
 
+server.events.on(
+  { name: "request", channels: "error" },
+  (request, event, tags) => {
+    console.log(`Request ${event.request} failed`);
+  }
+);
+
 const plugins = async () => {
-  const pluginsToRegister = [inert, vision];
+  const pluginsToRegister = [
+    inert,
+    vision
+    /*, {
+        plugin: Crumb,
+        options: {
+	    restful: true,
+            cookieOptions: {
+                isSecure: false
+            }
+        }
+    }*/
+  ];
   await server.register(pluginsToRegister);
 };
 

@@ -1,4 +1,5 @@
 const uuidv4 = require("uuid/v4");
+const { Hand } = require("pokersolver");
 
 let games = {};
 
@@ -39,10 +40,9 @@ const allPlayersJoined = game =>
 const addPlayer = (gameId, playerId) => {
   const game = getGame(gameId);
   if (allPlayersJoined(game)) {
+    console.error("That game is already full");
     throw new Error("That game is already full");
   }
-  // const exchanged = (allPlayersJoined(game)) ? true : false;
-  // console.log('exchanged' , exchanged);
   const players = {
     ...game.players,
     [playerId]: { cards: [], exchanged: false }
@@ -68,10 +68,27 @@ const playerExchange = (gameId, player) => {
   return false;
 };
 
+const getWinner = gameId => {
+  const { players } = getGame(gameId);
+  var hands = [];
+  Object.keys(players).forEach(key => {
+    console.error(players[key].cards);
+    //console.error(
+    var playerCards = [];
+    playerCards = Object.keys(players[key].cards).map(function(key2) {
+      console.error(players[key].cards[key2].code);
+      return players[key].cards[key2].code;
+    });
+    console.log(Hand.solve(playerCards));
+    //);
+  });
+};
+
 module.exports = {
   saveNewGame,
   isGame,
   getGame,
+  getWinner,
   updateGame,
   addPlayer,
   allPlayersJoined,

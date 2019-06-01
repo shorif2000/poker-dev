@@ -7,7 +7,8 @@ const joinGameHandler = async (req, h) => {
     // @TODO return error
     return h.view(`error`, { message: `GameId does not exist ${gameId}` });
   }
-  addPlayer(gameId, req.state.player);
+  const game = addPlayer(gameId, req.state.player);
+  console.error(game);
   return h.redirect(`/games/${gameId}`);
 };
 
