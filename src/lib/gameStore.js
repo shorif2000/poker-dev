@@ -72,7 +72,6 @@ const playerExchange = (gameId, player) => {
 const getWinner = (gameId, playerId) => {
   const { players } = getGame(gameId);
   const hands = [];
-  const currentPlayerResult = [];
 
   Object.keys(players).forEach(key => {
     // console.error(`playerID ${key}`);
@@ -109,7 +108,7 @@ const getWinner = (gameId, playerId) => {
 
   console.error(`playerID ${playerId}`);
   console.error(intersection);
-  if (intersection.length == 5) {
+  if (intersection.length === 5) {
     winnings.winner = playerId;
   }
   winnings.deck = winningDeck;
