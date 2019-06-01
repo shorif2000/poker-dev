@@ -4,11 +4,11 @@ const { getGame, playerExchange } = require("../lib/gameStore");
 const exchangeHandler = async (req, h) => {
   console.error("exchangeHandler");
   console.error(req.payload);
-  const card = Object.keys(req.payload).map(function(key) {
+  /*const card = Object.keys(req.payload).map(function(key) {
     return [Number(key), obj[key]];
-  });
-  console.error(`card: ${card}`);
-  if (req.payload == null || card === undefined) {
+  });*/
+  //console.error(`card: ${card}`);
+  if (req.payload == null || req.payload.card === undefined) {
     return h.response("No cards selected").code(202);
   }
   if (req.params.gameId === undefined) {
@@ -19,9 +19,10 @@ const exchangeHandler = async (req, h) => {
   const game = getGame(req.params.gameId);
   const deckId = game.deck.id;
   const playerId = req.state.player;
-  const cards = card;
+  // @TODO handle arrays
+  const cards =
+    typeof req.payload.card == "string" ? [req.payload.card] : req.payload.card;
 
-  const exchangeIds = [];
   console.log(`playerid: ${playerId}`);
   const currentPlayerDeck = game.players[playerId].cards;
   console.error(currentPlayerDeck);
@@ -29,13 +30,11 @@ const exchangeHandler = async (req, h) => {
   const newUrl = `https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=${
     Object.keys(cards).length
   }`;
-  console.error("call url");
   await axios
     .get(newUrl)
     .then(res => {
       if (res.data.success) {
-        // too many loops i can simplify later
-        // res.data.cards.forEach((card, id) => {
+        // @TODO too many loops i can simplify later
         console.error(cards);
         cards.forEach((replacecard, id2) => {
           currentPlayerDeck.forEach((card, id) => {
@@ -47,20 +46,14 @@ const exchangeHandler = async (req, h) => {
             }
           });
         });
-        // });
-        return currentPlayerDeck;
       }
+      return currentPlayerDeck;
     })
     .then(currentPlayerDeck => {
       game.players[playerId].cards = currentPlayerDeck;
       game.players[playerId].exchanged = true;
     });
-  // update exchange flag
-  /*  if (!playerExchange(req.params.gameId, playerId)) {
-    return h.response("Waiting for all players to exchange").code(202);
-  }
 
-  return h.response("OK"); */
   return currentPlayerDeck;
 };
 

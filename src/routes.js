@@ -95,5 +95,10 @@ module.exports = [
         path: "js"
       }
     }
+  },
+  {
+    method: "GET",
+    path: "/error",
+    handler: (req, h) => h.view("error", { message: req.params.message })
   }
 ];

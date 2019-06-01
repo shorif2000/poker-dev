@@ -13,6 +13,13 @@ const saveNewGame = (deck, numPlayers, firstPlayerId) => {
   return gameId;
 };
 
+const isGame = gameId => {
+  if (!games.hasOwnProperty(gameId)) {
+    return false;
+  }
+  return true;
+};
+
 const getGame = gameId => {
   if (!games.hasOwnProperty(gameId)) {
     throw new Error(`Could not find game with id ${gameId}`);
@@ -63,6 +70,7 @@ const playerExchange = (gameId, player) => {
 
 module.exports = {
   saveNewGame,
+  isGame,
   getGame,
   updateGame,
   addPlayer,

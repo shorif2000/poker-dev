@@ -49,22 +49,17 @@
   var burnCards = () => {
     //get selected cards
     var allVals = [];
-    $('input[name="card"]:checked').each(() => {
+    $('input[name="card"]:checked').each( function(){
        allVals.push($(this).val());
     });
     console.log(allVals);
-    const params = {'card' : allVals };
+    //const params = {'card' : allVals };
+    const params = $('#frm_cards').serialize();
     //console.log(params);
 
     //stringify to handle arrays
-    $.post(`/games/<%= gameId %>/exchange`, params) )
+    $.post(`/games/<%= gameId %>/exchange`, params )
     .done((data, textStatus, xhr) => {
-    /*$.ajax({
-      url:`/games/<%= gameId %>/exchange`,
-      type: 'POST',
-      data: params,
-      contentType: 'application/json' 
-    }).done( (data, textStatus, xhr) => {*/
       deckOfCards = data;
       clearUI();
       drawCards(deckOfCards);
