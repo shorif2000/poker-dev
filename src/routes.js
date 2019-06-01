@@ -7,6 +7,7 @@ const cardsHandler = require("./handlers/cards");
 const exchangeCheckHandler = require("./handlers/exchangeCheck");
 const exchangeHandler = require("./handlers/exchange");
 const resultHandler = require("./handlers/result");
+const missingRoutesHandler = require("./handlers/missingRoutes");
 
 module.exports = [
   {
@@ -100,5 +101,10 @@ module.exports = [
     method: "GET",
     path: "/error",
     handler: (req, h) => h.view("error", { message: req.params.message })
+  },
+  {
+    method: "GET",
+    path: "/{path*}",
+    handler: missingRoutesHandler
   }
 ];

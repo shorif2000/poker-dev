@@ -18,6 +18,14 @@ const server = hapi.Server({
     state: {
       parse: true,
       failAction: "ignore"
+    },
+    security: {
+      xframe: false,
+      noOpen: false
+    },
+    cors: {
+      origin: ["*"],
+      credentials: true
     }
   }
 });
