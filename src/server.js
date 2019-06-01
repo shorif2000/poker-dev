@@ -40,7 +40,8 @@ server.events.on(
 const plugins = async () => {
   const pluginsToRegister = [
     inert,
-    vision
+    vision,
+    require("hapi-mobile-views")
     /* , {
         plugin: Crumb,
         options: {

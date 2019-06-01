@@ -1,0 +1,36 @@
+<h2>Start a new game</h2>
+ <div class="container">
+    <form method="POST" action="/games">
+      <div class="form-group row">
+        <label class="col-6 col-form-label" for="numPlayers">Number of Players</label>
+	<div class="col-6">
+	  <select class="form-control" id="numPlayers" name="numPlayers">
+	    <option value="">Please select...</option>
+	    <option>2</option>
+	    <option>3</option>
+	    <option>4</option>
+	    <option>5</option>
+	    <option>6</option>
+	  </select>
+	</div>
+      <div class="col-12">
+        <input type="submit" class="btn btn-primary btn-block" value="Start Game" />
+      </div>
+    </div>
+    </form>
+ </div>
+
+<h2>Or join an existing one by entering the game ID:</h2>
+ <div class="row">
+  <form method="POST" action="/games/join">
+    <div class="form-group row">
+      <div class="col-12">
+        <input class="form-control" id="gameId" name="gameId" placeholder="Enter game ID:" />
+      </div>
+      <div class="col-12">
+        <input type="submit" class="btn btn-primary btn-block" value="Join Game" />
+      </div>
+    </div>
+  </form>
+</div>
+
