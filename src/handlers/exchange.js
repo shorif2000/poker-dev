@@ -3,6 +3,7 @@ const { getGame, playerExchange } = require("../lib/gameStore");
 
 const exchangeHandler = async (req, h) => {
   console.error("exchangeHandler");
+  console.error(req.payload);
   if (req.payload == null || req.payload.card === undefined) {
     return h.response("No cards selected").code(202);
   }
@@ -14,7 +15,7 @@ const exchangeHandler = async (req, h) => {
   const game = getGame(req.params.gameId);
   const deckId = game.deck.id;
   const playerId = req.state.player;
-  const cards = req.payload.card;
+  const cards = req.payload["card[]"];
 
   const exchangeIds = [];
   console.log("playerid: " + playerId);
@@ -31,6 +32,7 @@ const exchangeHandler = async (req, h) => {
       if (res.data.success) {
         //too many loops i can simplify later
         //res.data.cards.forEach((card, id) => {
+        console.error(cards);
         cards.forEach((replacecard, id2) => {
           currentPlayerDeck.forEach((card, id) => {
             if (card.code == replacecard) {
