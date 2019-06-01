@@ -20,7 +20,8 @@
 
   var drawCards = (data) => {
     var cards = '';
-    $.each(data, function(index, value){
+    
+    $.each(data, (index, value) => {
         console.log(value)
         cards += '<div class="col-sm-6 col-md-2"><div><img class="col-sm-12 col-md-11" src="'+value.image+'" /></div><div class="text-center"><input name="card" id="card_'+value+'" type="checkbox" value="'+value.code+'" /> Discard</div></div>';
       });
@@ -29,25 +30,41 @@
   }
 
   // Fetch the current users cards here from `/games/${gameId}/cards`
+  var deckOfCards = [];
   // cards are different ones retrieved here.
-  $.ajax(`/games/${gameId}/cards`).done(function(data, textStatus, xhr){
+  $.ajax(`/games/${gameId}/cards`).done((data, textStatus, xhr) => {
+    deckOfCards = data;
     drawCards(data);
   })
   .fail((error) => { console.error(error)});
 
   const checkExchangeStatus = () => {
-    $.ajax(`/games/${gameId}/allExchanged`).done(function(data, textStatus, xhr){
+    $.ajax(`/games/${gameId}/allExchanged`).done((data, textStatus, xhr) => {
       if (xhr.status !== 202) { // not pending
         document.location = `/games/${gameId}/result`;
       }
     })
   }
 
-  var deckOfCards = [];
-
   var burnCards = () => {
-    console.log($( "#frm_cards" ).serialize());
-    $.post(`/games/<%= gameId %>/exchange`, JSON.stringify($( "#frm_cards" ).serialize()) ).done(function(data, textStatus, xhr){
+    //get selected cards
+    var allVals = [];
+    $('input[name="card"]:checked').each(() => {
+       allVals.push($(this).val());
+    });
+    console.log(allVals);
+    const params = {'card' : allVals };
+    //console.log(params);
+
+    //stringify to handle arrays
+    $.post(`/games/<%= gameId %>/exchange`, params) )
+    .done((data, textStatus, xhr) => {
+    /*$.ajax({
+      url:`/games/<%= gameId %>/exchange`,
+      type: 'POST',
+      data: params,
+      contentType: 'application/json' 
+    }).done( (data, textStatus, xhr) => {*/
       deckOfCards = data;
       clearUI();
       drawCards(deckOfCards);

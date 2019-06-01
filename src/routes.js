@@ -46,11 +46,11 @@ module.exports = [
     path: "/games/{gameId}/exchange",
     config: {
       handler: exchangeHandler
-      //validate: {
-      //payload: {
-      //gameId: Joi.string().required(),
-      //}
-      //}
+      // validate: {
+      // payload: {
+      // gameId: Joi.string().required(),
+      // }
+      // }
     }
   },
   {

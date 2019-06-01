@@ -35,7 +35,7 @@ const init = async () => {
   });
   server.views({
     engines: { ejs: Ejs },
-    path: __dirname + "/views",
+    path: `${__dirname}/views`,
     layout: "layout"
   });
   await server.route(routes);

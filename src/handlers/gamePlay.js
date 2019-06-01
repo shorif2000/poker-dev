@@ -30,9 +30,9 @@ const gamePlayHandler = async (req, h) => {
     .then(res => res.data.cards)
     .then(cards => chunk(cards, 5))
     .then(hands => {
-      //Object.keys(players).forEach(
-      //(playerId, idx) => (players[playerId].cards = hands[idx])
-      //);
+      // Object.keys(players).forEach(
+      // (playerId, idx) => (players[playerId].cards = hands[idx])
+      // );
       console.error(hands);
       players[req.state.player].cards = hands[0];
       const newGameState = { ...game, players };
