@@ -3,9 +3,9 @@ const hapi = require("hapi");
 const inert = require("inert");
 const vision = require("vision");
 const Ejs = require("ejs");
+const Crumb = require("@hapi/crumb");
 const pkg = require("../package");
 const routes = require("./routes");
-const Crumb = require("@hapi/crumb");
 
 // Configure the server
 const server = hapi.Server({
@@ -33,7 +33,7 @@ const plugins = async () => {
   const pluginsToRegister = [
     inert,
     vision
-    /*, {
+    /* , {
         plugin: Crumb,
         options: {
 	    restful: true,
@@ -41,7 +41,7 @@ const plugins = async () => {
                 isSecure: false
             }
         }
-    }*/
+    } */
   ];
   await server.register(pluginsToRegister);
 };

@@ -1,5 +1,6 @@
 const uuidv4 = require("uuid/v4");
 const { Hand } = require("pokersolver");
+const _ = require("underscore");
 
 let games = {};
 
@@ -68,20 +69,52 @@ const playerExchange = (gameId, player) => {
   return false;
 };
 
-const getWinner = gameId => {
+const getWinner = (gameId, playerId) => {
   const { players } = getGame(gameId);
-  var hands = [];
+  const hands = [];
+  const currentPlayerResult = [];
+
   Object.keys(players).forEach(key => {
-    console.error(players[key].cards);
-    //console.error(
-    var playerCards = [];
-    playerCards = Object.keys(players[key].cards).map(function(key2) {
-      console.error(players[key].cards[key2].code);
-      return players[key].cards[key2].code;
-    });
-    console.log(Hand.solve(playerCards));
-    //);
+    // console.error(`playerID ${key}`);
+    // console.error(players[key].cards);
+    const playerCardsResult = Hand.solve(
+      Object.keys(players[key].cards).map(function(key2) {
+        // console.error(players[key].cards[key2].code);
+        return players[key].cards[key2].code;
+      })
+    );
+    hands.push(playerCardsResult);
   });
+  const winner = Hand.winners(hands);
+  console.error(`playerID ${playerId}`);
+  // console.error(winner[0].cards);
+  // console.error(winner[0].cardPool);
+  // console.error(winner[0].game);
+  // console.error(winner[0]);
+  const winningDeck = Object.keys(winner[0].cards).map(function(key2) {
+    return (
+      winner[0].cards[key2].value + winner[0].cards[key2].suit.toUpperCase()
+    );
+  });
+  console.info(`winning dick is...`);
+  console.info(winningDeck);
+  const compareWithCurrentDeck = Object.keys(players[playerId].cards).map(
+    function(key2) {
+      return players[playerId].cards[key2].code;
+    }
+  );
+  // match the winning hand to the player who has them.
+  const intersection = _.intersection(winningDeck, compareWithCurrentDeck);
+  const winnings = {};
+
+  console.error(`playerID ${playerId}`);
+  console.error(intersection);
+  if (intersection.length == 5) {
+    winnings.winner = playerId;
+  }
+  winnings.deck = winningDeck;
+  winnings.currentDeck = compareWithCurrentDeck;
+  return winnings;
 };
 
 module.exports = {
