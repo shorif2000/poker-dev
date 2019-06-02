@@ -8,6 +8,11 @@ const missingRoutesHandler = (req, h) => {
     return h(Boom.notFound("This resource isn’t available."));
   }
 
+  const err = request.response;
+  const errName = err.output.payload.error;
+  const statusCode = err.output.payload.statusCode;
+  const message = err.output.payload.message;
+  //console.log(err);
   return h
     .view("error", { message: "This resource isn’t available." })
     .code(404);
