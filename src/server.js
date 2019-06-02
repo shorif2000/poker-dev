@@ -22,7 +22,7 @@ const server = hapi.Server({
       failAction: "ignore"
     },
     security: {
-      xframe: false,
+      xframe: true,
       noOpen: false
     },
     cors: {
@@ -74,6 +74,58 @@ const init = async () => {
   return server;
 };
 
+process.on("unhandledRejection", err => {
+  console.log(err);
+  process.exit(1);
+});
+
+// Transform non-boom errors into boom ones
+server.ext("onPreResponse", (request, h) => {
+  if (request.response.isBoom) {
+    const err = request.response;
+    const errName = err.output.payload.error;
+    const statusCode = err.output.payload.statusCode;
+
+    return h
+      .view("error", {
+        message: err.output.payload.message,
+        statusCode: statusCode,
+        errName: errName
+      })
+      .code(statusCode);
+  }
+
+  return h.continue;
+  /*
+  // Transform only server errors 
+  if (request.response.isBoom && request.response.isServer) {
+    reply(boomify(request.response))
+  } else {
+    // Otherwise just continue with previous response
+    reply.continue()
+  }
+*/
+});
+
+function boomify(error) {
+  // I'm using globals for some things (like sequelize), you should replace it with your sequelize instance
+  if (error instanceof Core.db.sequelize.UniqueConstraintError) {
+    let be = Boom.create(
+      400,
+      `child "${error.errors[0].path}" fails because ["${
+        error.errors[0].path
+      }" must be unique]`
+    );
+    be.output.payload.validation = {
+      source: "payload",
+      keys: error.errors.map(e => e.path)
+    };
+    return be;
+  } else {
+    // If error wasn't found, return default boom internal error
+    return Boom.internal("An internal server error", error);
+  }
+}
 const start = async () => {
   try {
     await init();
