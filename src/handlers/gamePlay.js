@@ -26,7 +26,7 @@ const gamePlayHandler = async (req, h) => {
   const deckId = game.deck.id;
   const apiUrl = `https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=${game.numPlayers *
     5}`;
-  //const renderView = (__isMobile) ? "game-mobile" : "game";
+  // const renderView = (__isMobile) ? "game-mobile" : "game";
 
   return axios
     .get(apiUrl)

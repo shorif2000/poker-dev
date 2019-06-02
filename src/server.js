@@ -3,11 +3,11 @@ const hapi = require("hapi");
 const inert = require("inert");
 const vision = require("vision");
 const Ejs = require("ejs");
-const pkg = require("../package");
-const routes = require("./routes");
 const Crumb = require("@hapi/crumb");
 const Blankie = require("blankie");
 const Scooter = require("@hapi/scooter");
+const routes = require("./routes");
+const pkg = require("../package");
 
 // Configure the server
 const server = hapi.Server({
@@ -84,13 +84,13 @@ server.ext("onPreResponse", (request, h) => {
   if (request.response.isBoom) {
     const err = request.response;
     const errName = err.output.payload.error;
-    const statusCode = err.output.payload.statusCode;
+    const { statusCode } = err.output.payload;
 
     return h
       .view("error", {
         message: err.output.payload.message,
-        statusCode: statusCode,
-        errName: errName
+        statusCode,
+        errName
       })
       .code(statusCode);
   }
@@ -107,10 +107,11 @@ server.ext("onPreResponse", (request, h) => {
 */
 });
 
+/*
 function boomify(error) {
   // I'm using globals for some things (like sequelize), you should replace it with your sequelize instance
   if (error instanceof Core.db.sequelize.UniqueConstraintError) {
-    let be = Boom.create(
+    const be = Boom.create(
       400,
       `child "${error.errors[0].path}" fails because ["${
         error.errors[0].path
@@ -121,11 +122,13 @@ function boomify(error) {
       keys: error.errors.map(e => e.path)
     };
     return be;
-  } else {
+  } 
     // If error wasn't found, return default boom internal error
     return Boom.internal("An internal server error", error);
-  }
+  
 }
+*/
+
 const start = async () => {
   try {
     await init();

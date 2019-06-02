@@ -1,5 +1,6 @@
 const uuidv4 = require("uuid/v4");
 const Joi = require("joi");
+const Boom = require("boom");
 const newGameHandler = require("./handlers/newGame");
 const joinGameHandler = require("./handlers/joinGame");
 const gamePlayHandler = require("./handlers/gamePlay");
@@ -8,7 +9,6 @@ const exchangeCheckHandler = require("./handlers/exchangeCheck");
 const exchangeHandler = require("./handlers/exchange");
 const resultHandler = require("./handlers/result");
 const missingRoutesHandler = require("./handlers/missingRoutes");
-const Boom = require("boom");
 
 module.exports = [
   {
@@ -30,7 +30,7 @@ module.exports = [
         },
         failAction: async (req, h, err) => {
           console.error("ValidationError:", err.message);
-          //throw Boom.badRequest(err.message);
+          // throw Boom.badRequest(err.message);
           return h
             .view("error", { message: err.message })
             .code(400)
@@ -50,7 +50,7 @@ module.exports = [
         },
         failAction: async (req, h, err) => {
           console.error("ValidationError:", err.message);
-          //throw Boom.badRequest(err.message);
+          // throw Boom.badRequest(err.message);
           return h
             .view("error", { message: err.message })
             .code(400)

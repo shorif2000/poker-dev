@@ -1,4 +1,4 @@
-const { getGame, getWinner } = require("../lib/gameStore");
+const { getWinner } = require("../lib/gameStore");
 
 const resultHandler = (req, h) => {
   const { gameId } = req.params;
