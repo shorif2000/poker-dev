@@ -1,0 +1,67 @@
+<form id="frm_cards" method="POST" action="/games/<%= gameId %>/exchange">
+  <div class="container">
+    <div id="cards">
+    </div>
+    </div>
+      <button id="submit_burn" type="button" class="btn btn-primary btn-block">Burn selected cards</button>
+    </div>
+  </div>
+</form>
+
+
+<script>
+  const gameId = '<%= gameId %>';
+
+  var clearUI = () => {
+    $('#cards').html('');
+  }
+
+  // Fetch the current users cards here from `/games/${gameId}/cards`
+  var deckOfCards = [];
+  // cards are different ones retrieved here.
+  $.ajax(`/games/${gameId}/cards`).done((data, textStatus, xhr) => {
+    deckOfCards = data;
+    drawCards(data);
+  })
+  .fail((error) => { console.error(error)});
+
+  const checkExchangeStatus = () => {
+    $.ajax(`/games/${gameId}/allExchanged`).done((data, textStatus, xhr) => {
+      if (xhr.status !== 202) { // not pending
+        document.location = `/games/${gameId}/result`;
+      }
+    })
+  }
+
+  var burnCards = () => {
+    //get selected cards
+    var allVals = [];
+    $('input[name="card"]:checked').each( function(){
+       allVals.push($(this).val());
+    });
+    console.log(allVals);
+    if(allVals.length == 0 ){
+      alert(`You need to select a card to burn`);
+      return;
+    }
+    //const params = {'card' : allVals };
+    const params = $('#frm_cards').serialize();
+    //console.log(params);
+
+    //stringify to handle arrays
+    $.post(`/games/<%= gameId %>/exchange`, params )
+    .done((data, textStatus, xhr) => {
+      deckOfCards = data;
+      clearUI();
+      drawCards(deckOfCards);
+    })
+    .fail((error) => { console.error(error)});
+  }
+
+  /** init **/
+  setInterval(checkExchangeStatus, 1000);
+  $("#submit_burn").click( () => {  
+    burnCards();
+  });
+
+</script>
