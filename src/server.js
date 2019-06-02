@@ -6,6 +6,8 @@ const Ejs = require("ejs");
 const pkg = require("../package");
 const routes = require("./routes");
 const Crumb = require("@hapi/crumb");
+const Blankie = require("blankie");
+const Scooter = require("@hapi/scooter");
 
 // Configure the server
 const server = hapi.Server({
@@ -46,7 +48,12 @@ const plugins = async () => {
     inert,
     vision,
     require("hapi-mobile-views"),
-    { plugin: Crumb, options: { cookieOptions: { isSecure: false } } }
+    { plugin: Crumb, options: { cookieOptions: { isSecure: false } } },
+    Scooter,
+    {
+      plugin: Blankie,
+      options: {} // specify options here
+    }
   ];
   await server.register(pluginsToRegister);
 };
