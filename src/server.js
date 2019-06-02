@@ -3,7 +3,6 @@ const hapi = require("hapi");
 const inert = require("inert");
 const vision = require("vision");
 const Ejs = require("ejs");
-const Crumb = require("@hapi/crumb");
 const pkg = require("../package");
 const routes = require("./routes");
 
@@ -24,8 +23,12 @@ const server = hapi.Server({
       noOpen: false
     },
     cors: {
-      origin: ["*"],
-      credentials: true
+      origin: ["banglarelief.org"],
+      headers: ["Authorization"], // an array of strings - 'Access-Control-Allow-Headers'
+      exposedHeaders: ["Accept"], // an array of exposed headers - 'Access-Control-Expose-Headers',
+      additionalExposedHeaders: ["Accept"], // an array of additional exposed headers
+      maxAge: 60,
+      credentials: true // boolean - 'Access-Control-Allow-Credentials'
     }
   }
 });
@@ -38,20 +41,7 @@ server.events.on(
 );
 
 const plugins = async () => {
-  const pluginsToRegister = [
-    inert,
-    vision,
-    require("hapi-mobile-views")
-    /* , {
-        plugin: Crumb,
-        options: {
-	    restful: true,
-            cookieOptions: {
-                isSecure: false
-            }
-        }
-    } */
-  ];
+  const pluginsToRegister = [inert, vision, require("hapi-mobile-views")];
   await server.register(pluginsToRegister);
 };
 
