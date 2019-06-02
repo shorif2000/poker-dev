@@ -1,9 +1,9 @@
-<h2>Start a new game</h2>
+<h3>Start a new game</h3>
  <div class="container">
     <form method="POST" action="/games">
       <div class="form-group row">
-        <label class="col-6 col-form-label" for="numPlayers">Number of Players</label>
-	<div class="col-6">
+        <label class="col-7 col-form-label" for="numPlayers">Number of Players</label>
+	<div class="col-5">
 	  <select class="form-control" id="numPlayers" name="numPlayers">
 	    <option value="">Please select...</option>
 	    <option>2</option>
@@ -20,7 +20,7 @@
     </form>
  </div>
 
-<h2>Or join an existing one by entering the game ID:</h2>
+<h3>Or join an existing one by entering the game ID:</h3>
  <div class="row">
   <form method="POST" action="/games/join">
     <div class="form-group row">

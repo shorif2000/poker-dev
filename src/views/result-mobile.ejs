@@ -1,13 +1,13 @@
 <% if(isWinner){ %>
 
-<h3> You won! </h3>
+<h4> You won! </h4>
 
 
 <div class="row">
 
   <% for(var i = 0; i < currentDeck.length; i++){ %>
 
-  <div class="col-sm-6 col-md-2">
+  <div class="col-sm-2 col-md-3">
     <div>
     <img class="col-sm-12 col-md-11" src="https://deckofcardsapi.com/static/img/<%= currentDeck[i] %>.png" />
     </div>
@@ -22,13 +22,13 @@
 
 <% } else { %>
 
-<h3>You Lost</h3>
+<h4>You Lost</h4>
 
 <div class="row">
 
   <% for(var i = 0; i < currentDeck.length; i++){ %>
 
-  <div class="col-sm-6 col-md-2">
+  <div class="col-sm-2 col-md-3">
     <div>
     <img class="col-sm-12 col-md-11" src="https://deckofcardsapi.com/static/img/<%= currentDeck[i] %>.png" />
     </div>
@@ -39,11 +39,11 @@
 </div>
 
 
-<h3>The winning hand:</h3>
+<h4>The winning hand:</h4>
 <div class="row">
   <% for(var i = 0; i<deck.length; i++){ %>
 
-  <div class="col-sm-6 col-md-2">
+  <div class="col-sm-2 col-md-3">
     <div>
     <img class="col-sm-12 col-md-11" src="https://deckofcardsapi.com/static/img/<%= deck[i] %>.png" />
     </div>
