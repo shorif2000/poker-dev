@@ -48,7 +48,15 @@ const plugins = async () => {
     inert,
     vision,
     require("hapi-mobile-views"),
-    { plugin: Crumb, options: { cookieOptions: { isSecure: false } } },
+    {
+      plugin: Crumb,
+      options: {
+        cookieOptions: { isSecure: false },
+        skip: () => {
+          return true;
+        }
+      }
+    },
     Scooter,
     {
       plugin: Blankie,
