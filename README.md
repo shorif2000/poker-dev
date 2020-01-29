@@ -1,24 +1,9 @@
-# Space Between Developer Exercise
-
-Hello, if you've been sent this link then we would like to better understand how you work, to do this we'd like you to undertake a small assignment.
-
-At Space Between, we mainly use node backend services and a variety of frontend tech and this assignment has been created to help us assess your proficiencies across these areas.
-
-The task is to complete the functionality required to play an online game of 5 Card Draw Poker. The game is part way complete, and the tasks outlined below should allow it to be played by multiple players.
-
-It should only take a few hours and there's no deadline. You won't be judged on the completion time, so there's no rush, just let us know once it's completed.
-
-We'd like to see how you write code so try to keep it simple, but don't be afraid to add any features you think are missing or would be helpful. Please send us a link to your github repository once the task is complete.
-
-We're looking forward to seeing what you produce! Thanks for your time.
+# Poker
 
 ## Project Setup
 
-- Fork the exercise repo in github into your own github account, and then checkout a local copy.
 - Run `npm install` to grab the dependencies.
 - `npm run start` will start the server, and you can view the WIP at http://localhost:3000
-
-To test the game (as two players) you will need to open two browser windows (one in incognito mode) as it uses cookies to identify each player. Then you should be able to play against yourself.
 
 ## Exercise Tasks
 
@@ -26,9 +11,9 @@ The game is [5 Card drawer poker](https://en.wikipedia.org/wiki/Five-card_draw).
 
 We are using the [http://deckofcardsapi.com/]() to create a shuffled deck of cards, and then request cards from that deck which are then assigned to each player.
 
-### Part 1
+### Features
 
-_Existing functionality_: You can create a new game, or join an existing game, and the server requires all players to have joined before proceeding to fetching cards.
+You can create a new game, or join an existing game, and the server requires all players to have joined before proceeding to fetching cards.
 
 _To do:_ From the client side, make an AJAX request to ``/games/${gameId}/cards``, adding the javascript required to the [game view page](https://github.com/spacebetween/poker-dev-exercise/blob/master/src/views/game.ejs).  Jquery has been loaded in the head of the page so this can be used to make the request. This will return the current users cards in this format:
 ```
